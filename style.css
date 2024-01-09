@@ -1,0 +1,87 @@
+*{
+	/* background: #000; */
+	color: aliceblue;
+	/* font-family: Arial, sans-serif; */
+	font-family: 'Outfit', sans-serif;
+	font-family: 'Poppins', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	letter-spacing: 0.3rem;
+	line-height: 3rem;
+	/* line-break: ; */
+	font-size: larger;
+	font-weight: 700;
+}
+
+html{
+	background-color: #000;
+}
+
+span:before {
+	content: '';
+	color: red; /* Optional: Change the color if needed */
+  }
+
+.container{
+	display: flex;
+	flex-direction: column;
+	text-underline-offset: 0.5rem;
+}
+
+p, h1{
+	text-align: center;
+}
+.correct
+{
+	/* background: #000; */
+	color: rgb(154, 251, 154);
+}
+.wasIncorrect
+{
+	background: #685656;
+	/* color: rgb(196, 255, 168); */
+}
+.incorrect
+{
+	background: #8b0202;
+	color: rgb(250, 206, 198);
+}
+span:focus{
+	/* border: 3px solid white ; */
+	outline: none;
+}
+.current
+{
+	border: none;
+	background: navy;
+	color: beige;
+	text-decoration: underline;
+}
+#typ
+{
+	margin: auto;
+	width: 80%;
+	white-space: pre-wrap;
+	text-wrap: balance;
+	padding: 10px;
+	border-radius: 10px;
+	border: rgb(252, 247, 193) double 8px;
+}
+.btn
+{
+	padding: 5px 15px;
+	margin: 4px auto;
+	background-color: darkgray;
+	color: #000;
+	font-weight: bold;
+	border-radius: 30px;
+	border: rgb(142, 142, 1) solid 1px;
+	white-space: pre-line;
+}
+.btn:hover, .btn:focus
+{
+	outline: rgb(255, 255, 48) solid 2px;
+	outline-offset: 2px;
+}
+.para{
+	display: none;
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display each 'a' as ' ' without replacing</title>
+  <style>
+    .hide-a:after {
+      content: '\00a0'; /* Unicode character for non-breaking space */
+      color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <p class="hide-a">Mallikarjun</p>
+</body>
+</html>
