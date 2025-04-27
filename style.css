@@ -6,14 +6,7 @@
 	/* font-family: 'Roboto', sans-serif; */
 	/* line-break: ; */
 	/* font-family: Arial, sans-serif; */
-	font-family: 'Droid Sans Mono', "Cascadia Mono", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 600;
-	font-style: normal;
-	letter-spacing: 0.3rem;
-	line-height: 3rem;
-	/* font-size: 2rem; */
-	font-weight: 700;
+	
 }
 
 
@@ -34,9 +27,38 @@ span:before {
 	text-underline-offset: 0.5rem;
 }
 
+select{
+	background: black;
+	color: white;
+	font-size: 1.5rem;
+	/* text-align: center; */
+	width: auto;
+	/* margin: 2px auto; */
+	/* text-decoration: underline; */
+	/* text-underline-offset: 0.5rem; */
+	/* text-decoration-color: rgb(255, 255, 48); */
+}
+
+option{
+	background: #000;
+	color: #fff;
+	font-size: 1.5rem;
+	/* text-align: center; */
+	/* text-decoration: underline; */
+	/* text-underline-offset: 0.5rem; */
+	/* text-decoration-color: rgb(255, 255, 48); */
+}
+
 pre{
 	/* text-align: center; */
-
+	font-family: 'Droid Sans Mono', "Cascadia Mono", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	letter-spacing: 0.3rem;
+	line-height: 3rem;
+	/* font-size: 2rem; */
+	font-weight: 700;
 	font-size: 2rem;
 } 
 
@@ -44,6 +66,19 @@ h1{
 	text-align: center;
 	font-size: 3rem;
 }
+
+.controls
+{
+	padding: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	/* flex-direction: column; */
+	/* margin: 0 auto; */
+	width: 80%;
+}
+
 .correct
 {
 	/* background: #000; */

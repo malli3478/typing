@@ -22,6 +22,17 @@
     <div class="container">
       <pre id="para" hidden="true">Default text</pre>
       <h1>Type the following ...</h1>
+	  <div class="controls">
+		<label for="speedSelect">Dictation Speed:</label>
+		<select id="speedSelect">
+			<option value="2" selected>Very Fast</option>
+			<option value="1.5">Fast</option>
+			<option value="1" >Normal</option>
+		  <option value="0.5">Slow</option>
+		</select>
+	  </div>
+	  
+
       <pre id="typ"></pre>
       <br />
       <button class="btn" onclick="reset()" id="but">Restart</button>
