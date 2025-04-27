@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customizable Dictation Typing Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f5f5f5;
+    }
+    button, select, input[type="range"] {
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-top: 1rem;
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+    .controls {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    label {
+      margin-right: 1rem;
+    }
+    .result {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Customizable Dictation Typing Practice</h1>
+
+  <div class="controls">
+    <label for="voiceSelect">Choose Voice:</label>
+    <select id="voiceSelect"></select>
+  </div>
+
+  <div class="controls">
+    <label for="rate">Rate (Speed):</label>
+    <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+    <span id="rateValue">1</span>
+  </div>
+
+  <div class="controls">
+    <label for="pitch">Pitch:</label>
+    <input type="range" id="pitch" min="0" max="2" value="1" step="0.1">
+    <span id="pitchValue">1</span>
+  </div>
+
+  <button id="play-dictation">Play Dictation</button>
+  
+  <textarea id="user-input" placeholder="Type what you hear here..."></textarea>
+  <br>
+  <button id="check-answer">Check Answer</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const playButton = document.getElementById('play-dictation');
+    const checkButton = document.getElementById('check-answer');
+    const userInput = document.getElementById('user-input');
+    const resultDiv = document.getElementById('result');
+    const voiceSelect = document.getElementById('voiceSelect');
+    const rateSlider = document.getElementById('rate');
+    const pitchSlider = document.getElementById('pitch');
+    const rateValue = document.getElementById('rateValue');
+    const pitchValue = document.getElementById('pitchValue');
+
+    
+    
+    const dictationText = `The Boy Who Painted the Rain
+In a dry, dusty village where it hadn’t rained in five years, lived a boy named Arin who loved to paint. But unlike others who painted houses or signs, Arin painted what didn’t exist. He painted clouds with silver linings, rivers rushing through the village, and raindrops dancing on rooftops. Everyone said he was wasting his time—after all, no brush could summon rain. But Arin didn’t stop. Each day, he painted a new mural on the village wall, adding more skies, puddles, and blooming trees. Slowly, people began to pay attention. Children gathered to watch, elders paused their walks, and even the most skeptical villagers found themselves staring at the growing masterpiece. One morning, after Arin had painted a giant storm cloud with lightning streaking across it, something strange happened. The wind shifted. The sky darkened. Thunder rumbled in the distance. And then—for the first time in half a decade—it rained. No one could explain it. Maybe it was a coincidence, maybe not. But from that day on, Arin was no longer just a painter—he was a symbol of hope, proof that imagination and persistence could change even the driest season into something beautiful.`;
+
+    let voices = [];
+
+    function populateVoices() {
+      voices = speechSynthesis.getVoices();
+      voiceSelect.innerHTML = '';
+
+      voices.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const selectedVoice = voices[voiceSelect.value];
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+      utterance.rate = parseFloat(rateSlider.value);
+      utterance.pitch = parseFloat(pitchSlider.value);
+      utterance.volume = 1; // full volume
+      speechSynthesis.speak(utterance);
+    }
+
+    playButton.addEventListener('click', () => {
+      speak(dictationText);
+    });
+
+    checkButton.addEventListener('click', () => {
+      const typedText = userInput.value.trim();
+      if (typedText.toLowerCase() === dictationText.toLowerCase()) {
+        resultDiv.textContent = "✅ Correct! Well done!";
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "❌ Incorrect. Try again!";
+        resultDiv.style.color = "red";
+      }
+    });
+
+    // Update rate and pitch values visually
+    rateSlider.addEventListener('input', () => {
+      rateValue.textContent = rateSlider.value;
+    });
+    pitchSlider.addEventListener('input', () => {
+      pitchValue.textContent = pitchSlider.value;
+    });
+
+    // Some browsers load voices asynchronously
+    speechSynthesis.onvoiceschanged = populateVoices;
+    populateVoices(); // also call it once directly
+  </script>
+
+</body>
+</html>

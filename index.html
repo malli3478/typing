@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Typing practice</title>
-	<link rel="stylesheet" href="style.css">
-</head>
-<body onload="getPara()" onkeypress="isCorrect(event)" onkeydown="back(event)"> 
-	<div class="container">
-		<pre id="para" hidden="true">Default text</pre>
-		<h1 >Type the following ...</h1>
-		<pre id="typ"></pre>
-		<br>
-		<button class="btn" onclick="reset()" id="but">Restart</button>
-		<div>
-			<p id="resultSection"></p>
-		</div>
-	</div>
-	<script src="script.js"></script>	
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing practice</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href='https://fonts.googleapis.com/css?family=Droid Sans Mono' rel='stylesheet'>
+	<link
+      href="https://fonts.googleapis.com/css2?family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    onload="getPara()"
+    onkeypress="isCorrect(event)"
+    onkeydown="back(event)"
+  >
+    <div class="container">
+      <pre id="para" hidden="true">Default text</pre>
+      <h1>Type the following ...</h1>
+      <pre id="typ"></pre>
+      <br />
+      <button class="btn" onclick="reset()" id="but">Restart</button>
+      <div>
+        <p id="resultSection"></p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
