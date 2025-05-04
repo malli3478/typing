@@ -31,7 +31,7 @@ const playBackspaceSound = () => {
 }
 
 const playKeyPressSound = () => {
-  const keyPressSound = new Audio('./Keypress.mp3');
+  const keyPressSound = new Audio('./Keypress.mp3'); 
   keyPressSound.play().catch((e) => {
     console.error("KeyPressSound playback failed:", e);
   });
