@@ -35,7 +35,7 @@ const playKeyPressSound = () => {
   keyPressSound.play().catch((e) => {
     console.error("KeyPressSound playback failed:", e);
   });
-  return;
+  return; 
 }
 
 function speak(text) {
