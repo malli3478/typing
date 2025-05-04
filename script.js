@@ -165,7 +165,7 @@ function back(event) {
 
 function isCorrect(event) {
   // playKeyPressSound();
-  const keyPressSound = new Audio('./keypress.mp3');
+  const keyPressSound = new Audio('./Keypress.mp3');
   keyPressSound.play();
   document.getElementById(cur)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 
