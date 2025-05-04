@@ -164,9 +164,9 @@ function back(event) {
 }
 
 function isCorrect(event) {
-  // playKeyPressSound();
-  const keyPressSound = new Audio('./Keypress.mp3');
-  keyPressSound.play();
+  playKeyPressSound();
+  // const keyPressSound = new Audio('./Keypress.mp3');
+  // keyPressSound.play();
   document.getElementById(cur)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 
   if (cur === 0) {
