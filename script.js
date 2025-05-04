@@ -5,89 +5,100 @@ let time = new Date();
 let t1;
 let synth = window.speechSynthesis;
 
-// Error sound to be played when the user types an incorrect key
-let errorSound = new Audio('https://www.soundjay.com/button/beep-07.wav'); // You can replace this with any error sound URL
 
-// Function to play the error sound
-function playErrorSound() {
-  errorSound.play();
+const playErrorSound = () => {
+  const errorSound = new Audio('Error.mp3');
+  errorSound.play().catch((e) => {
+    console.error("ErrorSound playback failed:", e);
+  });
+  return;
+}
+
+const playCorrectionSound = () => {
+  const errorSound = new Audio('Correction.mp3');
+  errorSound.play().catch((e) => {
+    console.error("ErrorSound playback failed:", e);
+  });
+  return;
+}
+
+const playBackspaceSound = () => {
+  const keyPressSound = new Audio('./Backspace.mp3');
+  keyPressSound.play().catch((e) => {
+    console.error("BackspaceSound playback failed:", e);
+  });
+  return;
+}
+
+const playKeyPressSound = () => {
+  const keyPressSound = new Audio('./keypress.mp3');
+  keyPressSound.play().catch((e) => {
+    console.error("KeyPressSound playback failed:", e);
+  });
+  return;
 }
 
 function speak(text) {
-  if (!synth) return;
-  console.log('speak called with text:', text);
-
-  // Check if text is a space and convert it to the word "space"
-  if (text === " ") {
-    text = "space"; // Explicitly handle space as "space"
-  }
-
-  // Define special characters and their corresponding spoken names
-  const specialChars = {
-    ".": "period",
-    ",": "comma",
-    "\n": "newline",
-    "⏎": "newline",
-    "!": "exclamation mark",
-    "?": "question mark",
-    ":": "colon",
-    ";": "semicolon",
-    "-": "dash",
-    "(": "open bracket",
-    ")": "close bracket",
-    "[": "open square bracket",
-    "]": "close square bracket",
-    "{": "open curly bracket",
-    "}": "close curly bracket",
-    "\"": "double quote",
-    "'": "apostrophe",
-    "/": "slash",
-    "\\": "backslash",
-    "*": "asterisk",
-    "+": "plus",
-    "=": "equals",
-    "<": "less than",
-    ">": "greater than",
-    "&": "ampersand",
-    "%": "percent",
-    "$": "dollar",
-    "#": "hash",
-    "@": "at",
-    "^": "caret",
-    "`": "backtick",
-    "~": "tilde",
-    "|": "pipe"
-  };
-
-  // Check if it's a capital letter
-  if (text.match(/[A-Z]/)) {
-    text = `capital ${text.toLowerCase()}`; // Convert to lowercase and prepend "capital"
-  } 
-  // Otherwise, check if it's a lowercase letter
-  else if (text.match(/[a-z]/)) {
-    // No changes needed for lowercase letters
-    text = text;
-  }
-
-  // Get spoken equivalent for special characters
-  const spokenText = specialChars[text] || text;
-
-  // Create the speech utterance
-  const utterance = new SpeechSynthesisUtterance(spokenText);
-
-  // Get selected speed (if any)
-  const speedSelect = document.getElementById('speedSelect');
-  if (speedSelect) {
-    utterance.rate = parseFloat(speedSelect.value);
-  } else {
-    utterance.rate = 1; // Default to normal speed
-  }
-
-  // Cancel previous speech (if any)
-  synth.cancel();
+	if (!synth) return;
+	console.log('speak called with text:', text);
+	if (text.charCodeAt(0) === NaN) {
+	  text = "space";
+	}
   
-  // Speak the final text (either character or special character name)
-  synth.speak(utterance);
+	const specialChars = {
+	  ".": "period",
+	  ",": "comma",
+	  "\n": "newline",
+	  "⏎": "newline",
+	  "!": "exclamation mark",
+	  "?": "question mark",
+	  ":": "colon",
+	  ";": "semicolon",
+	  "-": "dash",
+	  "(": "open bracket",
+	  ")": "close bracket",
+	  "[": "open square bracket",
+	  "]": "close square bracket",
+	  "{": "open curly bracket",
+	  "}": "close curly bracket",
+	  "\"": "double quote",
+	  "'": "apostrophe",
+	  "/": "slash",
+	  "\\": "backslash",
+	  "*": "asterisk",
+	  "+": "plus",
+	  "=": "equals",
+	  "<": "less than",
+	  ">": "greater than",
+	  "&": "ampersand",
+	  "%": "percent",
+	  "$": "dollar",
+	  "#": "hash",
+	  "@": "at",
+	  "^": "caret",
+	  "`": "backtick",
+	  "~": "tilde",
+	  "|": "pipe"
+	};
+  
+	if (text.match(/[A-Z]/)) {
+	  text = `cap ${text.toLowerCase()}`;
+	} else if (text.match(/[a-z]/)) {
+	  text = text;
+	}
+  
+	const spokenText = specialChars[text] || text;
+	const utterance = new SpeechSynthesisUtterance(spokenText);
+  
+	const speedSelect = document.getElementById('speedSelect');
+	if (speedSelect) {
+	  utterance.rate = parseFloat(speedSelect.value);
+	} else {
+	  utterance.rate = 2;
+	}
+  
+	synth.cancel();
+	synth.speak(utterance);
 }
 
 function getPara(r) {
@@ -131,23 +142,31 @@ function reset() {
 
 function back(event) {
   if (event.key === "Backspace") {
+    playBackspaceSound();
     document.getElementById(cur).scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
     document.getElementById(cur).classList.remove("current");
-
+    
     if (cur > 0) cur--;
 
     const element = document.getElementById(cur);
     if (element) {
-      if (element.classList.contains("incorrect")) element.classList.add("wasIncorrect");
+      if (element.classList.contains("incorrect")) {
+        element.classList.add("wasIncorrect");
+      }
       element.classList.remove("current", "correct", "incorrect");
       element.classList.add("current");
       element.focus();
-      speak(element.innerText.trim());
+      // playCorrectionSound();
+      
+      // announceWordOrChar(element);
     }
   }
 }
 
 function isCorrect(event) {
+  // playKeyPressSound();
+  const keyPressSound = new Audio('./keypress.mp3');
+  keyPressSound.play();
   document.getElementById(cur)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 
   if (cur === 0) {
@@ -164,20 +183,24 @@ function isCorrect(event) {
     event.preventDefault();
   }
 
-  // Check if the key typed is correct
   if (
     (event.key === 'Enter' && currentChar.innerText === '⏎\n') ||
     event.key === currentChar.innerText
   ) {
+    if(currentChar.classList.contains("wasIncorrect")) {
+      playCorrectionSound();
+    }
     currentChar.classList.add("correct");
     currentChar.classList.remove("incorrect", "current");
   } else {
+    // playCorrectionSound();
     currentChar.classList.remove("correct");
+    // errorSound.play().catch((e) => {
+    //   console.error("Audio playback failed:", e);
+    // });
+    playErrorSound();
     currentChar.classList.add("incorrect");
     currentChar.classList.remove("current");
-
-    // Play error sound if incorrect key
-    playErrorSound();
   }
 
   cur++;
@@ -186,23 +209,30 @@ function isCorrect(event) {
   if (nextChar) {
     nextChar.classList.add("current");
     nextChar.focus();
-
-    // Check if we're at the beginning of a word and announce the entire word
-    const wordStart = nextChar.previousElementSibling && nextChar.previousElementSibling.innerText === " ";
-    if (wordStart) {
-      let word = "";
-      let temp = nextChar;
-      while (temp && temp.innerText !== " " && temp.innerText !== "\n") {
-        word += temp.innerText;
-        temp = temp.nextElementSibling;
-      }
-      speak(word); // Announce the full word
-    } else {
-      speak(nextChar.innerText.trim());
-    }
+    
+    // announceWordOrChar(nextChar);
   } else {
     console.log('Completed.');
     showResults();
+  }
+}
+
+function announceWordOrChar(element) {
+  if (!element) return;
+
+  // Check if cursor is at start of a word
+  const prevChar = document.getElementById(element.id - 1);
+  if (!prevChar || prevChar.innerText === " " || prevChar.innerText === "\n" || prevChar.innerText === "⏎\n") {
+    // Cursor is at beginning of a word
+    let word = "";
+    let temp = element;
+    while (temp && temp.innerText !== " " && temp.innerText !== "\n" && temp.innerText !== "⏎\n") {
+      word += temp.innerText;
+      temp = document.getElementById(Number(temp.id) + 1);
+    }
+    speak(word.trim());
+  } else {
+    speak(element.innerText.trim());
   }
 }
 
@@ -235,7 +265,6 @@ function countWords() {
   return words.length;
 }
 
-// Event listener for result section (press Enter to reload)
 document.getElementById('resultSection').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') window.location.reload();
 });
